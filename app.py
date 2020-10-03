@@ -1,126 +1,163 @@
-# *******************************
-# ****** SECTION 1 - LISTS ******
-# *******************************
+# *********************************
+# ****** SECTION 1 - CLASSES ******
+# *********************************
 
-# Lists are like variables except they can store more than one value
-# They defined by using square brackets like this:
-# name = [contents]
+# A "Class" is like a blueprint for an object
+# Objects can be many different things
+# In a grade tracking program objects might be: Course, Period, Teacher, Student, Gradable Assignment, Comment, Etc.
+# In Mario objects might be: Mario, Level, Enemy, Power Up (like star or mushroom), Hittable Block, Etc.
+# In banking software objects might be: Customer, Account, Deposit, Withdrawal, Etc.
 
-days_of_the_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-prime_numbers = [1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
-mixed_bag_of_stuff = ["blah", 4.2, False, 18]
 
-# *******************************
-# ****** SECTION 2 - Index ******
-# *******************************
+# Note: Classes are normally named with capital letters with no spaces. But that is not required, just recommended.
+class UnknownStudent:
+    name = "Unknown"
+    age = "Unknown"
 
-# Every spot in an list has a number associated with it
-# The first spot in the list is given the number 0
-print(days_of_the_week)
-# print(days_of_the_week[0])
-# print(days_of_the_week[6])
 
-# You can use negative numbers to index from the end of a list
-# print(days_of_the_week[-1])
-# print(days_of_the_week[-2])
+# Now that the blueprint exists we can create an INSTANCE of the class
+first_student = UnknownStudent()
+first_student.name = "John Smith"
+first_student.age = 15
+print(f"The student's name is {first_student.name} and he is {first_student.age} years old.")
 
-# *************************************************
-# ****** SECTION 3 - Multi-Dimensional Lists ******
-# *************************************************
 
-# You can put lists inside of lists when appropriate
-# Note: it is often convenient to write them on multiple lines but it is not required.
-classes_grouped_by_department = [["Algebra", "Geometry"],
-                                 ["Creative Writing", "British Lit."],
-                                 ["Physics", "Chemistry", "Biology"]]
+# ********************************************
+# ****** SECTION 2 - CONSTRUCTOR METHOD ******
+# ********************************************
 
-# To access an index in a multi-dimensional array you need to specify both indices
-# print(classes_grouped_by_department[0][1])
-# print(classes_grouped_by_department[2][2])
+# A method is what we call a function that belongs to a class.
+# A CONSTRUCTOR method runs when a new instance is created.
+# The purpose of a constructor is to setup any initial values for a new instance.
+# A constructor in python uses the name: __init__
 
-# **************************************
-# ****** SECTION 4 - Dictionaries ******
-# **************************************
+# NOTE: It is considered good practice to always have a constructor even if it does nothing.
+class Student:
+    # NOTE: For constructor input parameters I like to start them with an underscore.
+    def __init__(self, _name, _age):
+        self.name = _name
+        self.age = _age
 
-# A dictionary is similar to a list except each index has a key with a name
-# We call these key/value pairs
-# They are defined with curly braces and colons between the keys/values.
-# name = {"key 1": "value 1", "key 2": "value 2", etc.}
 
-pro_football_teams = {"Chicago": "Bears", "Cincinnati": "Bengals", "Miami": "Dolphins"}
-# print(pro_football_teams)
-# print(pro_football_teams["Chicago"])
+# second_student = Student(_name="Jane", _age="Doe")
+# print(f"The student's name is {second_student.name} and her age is {second_student.age}.")
 
-# ***********************************
-# ****** SECTION 5 - FOR LOOPS ******
-# ***********************************
 
-# Any code inside of a loop will repeat a designated number of times
-# A "For Loop" is most commonly used to loop through a list or dictionary
+# ***************************************
+# ****** SECTION 3 - OTHER METHODS ******
+# ***************************************
 
-# Example with a list
-# for day in days_of_the_week:
-#     print(day)
-#     if day == "Saturday":
-#         print("WooHoo!")
+# A class can (and usually does) have other methods besides the constructor
+class Dog:
 
-# Example with a dictionary
-# for city, mascot in pro_football_teams.items():
-#     print(city)
-#     print(mascot)
+    def __init__(self, _name, _breed, _color):
+        self.name = _name
+        self.breed = _breed
+        self.color = _color
+        self.position = 0
 
-# Sometimes you may want a loop to repeat a known number of times
-# You can use range(x) to specify a number of loops
-# for i in range(10):
-#     print(i)
+    def run(self, distance=1):
+        self.position += distance
+        print(f"{self.name} ran {distance} meters and is now at position {self.position}.")
+
+    def bark(self):
+        if self.breed == "Lab":
+            print("Woof")
+        elif self.breed == "Terrier":
+            print("Yap")
+        else:
+            print("Bark")
+
+    def get_color(self):
+        return self.color
+
+
+# my_dog = Dog(_name="Ellie", _breed="Lab", _color="Yellow")
+# my_dog.run(5)
+# my_dog.run(-2)
+# my_dog.bark()
+# print(f"My dog is {my_dog.color}.")
+
 
 # *************************************
-# ****** SECTION 6 - WHILE LOOPS ******
+# ****** SECTION 3 - INHERITANCE ******
 # *************************************
 
-# A "While Loop" will continue to run while a condition is true
-# day_counter = 0
-# while days_of_the_week[day_counter] != "Saturday":
-#     print(days_of_the_week[day_counter])
-#     day_counter += 1
-#     if day_counter > 6:
-#         break
+# For the sake of organization it is often useful to have one class inherit another.
+# Usually the parent class is something generic and the child is one type of the parent class
 
-# Notice: it is usually a good idea to add a break condition to avoid infinite loops.
+class Animal:
+    def __init__(self):
+        self.position = 0
+        self.speed = 0
+        self.noise = "[silence]"
 
-# A continue will stop the current iteration of the loop and start the next one
-# day_counter = 0
-# while days_of_the_week[day_counter] != "Saturday":
-#     if day_counter == 2:
-#         day_counter += 1
-#         continue
-#     print(days_of_the_week[day_counter])
-#     day_counter += 1
+    def run(self):
+        self.position += self.speed
+        print(f"The animal ran {self.speed} meters and is now at position {self.position}.")
 
-# user_command = ""
-# iteration_count = 0
-# while user_command != "quit":
-#     user_command = input("User Command? ")
-#     iteration_count += 1
-#     print(f"Iteration Count = {iteration_count}")
-#     if iteration_count >= 10:
-#         break
+    def make_noise(self):
+        print(self.noise)
 
 
-# **************************************
-# ****** SECTION 6 - NESTED LOOPS ******
-# **************************************
+class Jaguar(Animal):
+    def __init__(self):
+        self.position = 0
+        self.speed = 10
+        self.noise = "growwwl"
 
-# Loops can be put inside of loops. This is often useful for multi-dimesional lists
-# There is a multiplicative factor for the number of times the loops will run
 
-# courses_dictionary = {
-#     "Math": ["Algebra", "Geometry", "Calculus", "Trigonometry"],
-#     "English": ["Creative Writing", "British Lit."],
-#     "Science": ["Physics", "Chemistry", "Biology"]
-# }
+class Horse(Animal):
+    def __init__(self):
+        self.position = 0
+        self.speed = 8
+        self.noise = "neigggh"
+
+
+class Snake(Animal):
+    def __init__(self):
+        self.position = 0
+        self.speed = 1
+        self.noise = "hssss"
+
+    def run(self):
+        self.position += self.speed
+        print(f"The snake slithered {self.speed} meters and is now at position {self.position}.")
+
+# jax = Jaguar()
+# jax.run()
+# jax.make_noise()
 #
-# for department, courses in courses_dictionary.items():
-#     print(f"The {department} Department has the foloowing {len(courses)} classes:")
-#     for course in courses:
-#         print(course)
+# harvey = Horse()
+# harvey.run()
+# harvey.make_noise()
+#
+# steve = Snake()
+# steve.run()
+# steve.make_noise()
+
+# ******************************************************
+# ****** SECTION 4 - S.O.L.I.D. DESIGN PRINCIPLES ******
+# ******************************************************
+
+# S.O.L.I.D is an acronym. If we follow the 5 recommendations our code
+#   will be easier to modify and maintain in the future
+
+# S - Single Responsibility: Classes should have a singular purpose. If you try to do everything in onc class it
+#                            gets cluttered and difficult to maintain.
+
+# O - Open for extension, Closed for modification: A class should be able to be added onto at a later time,
+#                            In general it should be generic enough that future situations don't cause you to
+#                            change existing code in the class.
+
+# L - Liskov Substitution: Any inherited class should be substitutable with its parent class. In our example above
+#                            a Horse should be able to do whatever an Animal can do.
+
+# I - Interface Segregation: This one basically says that if a child class doesn't fit in the parent class then
+#                            make a new parent class. (For example if I wanted an animal like snail it might need
+#                            its own parent class becuase it doesn't make noise and it doesnt really run).
+
+# D - Dependency Inversion: Means that child classes can (and should) depend on their parent classes to define
+#                            Their behavior. But a parent should never be dependent on a child class. For example,
+#                            an Animal should not have any of their behavior defined by a snake because snake is
+#                            an Animal. You could have a jaguar react to a snake, but not a generic Animal.
